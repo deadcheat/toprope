@@ -2,6 +2,8 @@ package toprope_test
 
 import (
 	"fmt"
+	"net"
+	"net/http/httptest"
 	"net/url"
 	"testing"
 
@@ -79,6 +81,26 @@ func TestNewHttptestTCPServer_ParseError(t *testing.T) {
 	}
 	if _, ok := err.(*url.Error); !ok {
 		t.Error("returned error must be typed *url.Error")
+		t.Fail()
+	}
+}
+
+// Test NewHttptestTCPServerFromURL will return error when failed to listen port
+func TestNewHttptestTCPServerFromURL_ListenError(t *testing.T) {
+	ts := httptest.NewServer(nil)
+	defer func() {
+		ts.CloseClientConnections()
+		ts.Close()
+	}()
+	testURL := ts.URL
+	// error must be nil
+	_, err := toprope.NewHttptestTCPServerFromURL(testURL, nil)
+	if err == nil {
+		t.Error("toprope must return error but returned nil")
+		t.Fail()
+	}
+	if _, ok := err.(*net.OpError); !ok {
+		t.Error("returned error must be typed *net.OpError")
 		t.Fail()
 	}
 }
