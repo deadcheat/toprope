@@ -89,7 +89,7 @@ func listenAndCreateServer(u *url.URL, handler http.Handler) (ts *Server, err er
 	for index := 0; index < retryToListen; index++ {
 		l, err = net.Listen(modeTCP, host)
 		if err != nil {
-			time.Sleep(1 * time.Second)
+			time.Sleep(5 * time.Second)
 			continue
 		}
 		break
