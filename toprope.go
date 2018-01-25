@@ -16,11 +16,11 @@ const (
 
 // NewHttptestTCPServerFromURL generate *httptest.Server from url-string
 func NewHttptestTCPServerFromURL(urlstring string, handler http.Handler) (ts *httptest.Server, err error) {
-	ur, err := url.Parse(urlstring)
+	u, err := url.Parse(urlstring)
 	if err != nil {
 		return
 	}
-	return listenAndCreateServer(ur.Host, handler)
+	return listenAndCreateServer(u, handler)
 }
 
 // NewHttptestTCPServer generates *httptest.Server from hostname and portnum
@@ -29,14 +29,18 @@ func NewHttptestTCPServer(hostName string, port int, handler http.Handler) (ts *
 	if port >= 0 {
 		host = fmt.Sprintf("%s:%d", hostName, port)
 	}
-	return listenAndCreateServer(host, handler)
+	u, err := url.Parse(host)
+	if err != nil {
+		return
+	}
+	return listenAndCreateServer(u, handler)
 }
 
-func listenAndCreateServer(host string, handler http.Handler) (ts *httptest.Server, err error) {
+func listenAndCreateServer(u *url.URL, handler http.Handler) (ts *httptest.Server, err error) {
 	var l net.Listener
 	// 規定回数リトライする
 	for index := 0; index < retryToListen; index++ {
-		l, err = net.Listen(modeTCP, host)
+		l, err = net.Listen(modeTCP, u.Host)
 		if err != nil {
 			time.Sleep(1 * time.Second)
 			continue
@@ -47,6 +51,7 @@ func listenAndCreateServer(host string, handler http.Handler) (ts *httptest.Serv
 		return
 	}
 	ts = &httptest.Server{
+		URL:      u.String(),
 		Listener: l,
 		Config:   &http.Server{Handler: handler},
 	}
