@@ -9,7 +9,7 @@ ___________
 
 [![Build Status](https://travis-ci.org/deadcheat/toprope.svg?branch=master)](https://travis-ci.org/deadcheat/toprope) [![Coverage Status](https://coveralls.io/repos/github/deadcheat/toprope/badge.svg?branch=master&service=github)](https://coveralls.io/github/deadcheat/toprope?branch=master)
 
-# What's this
+## What's this
 
 toprope is aiming to flexible wrapper of net/http/test
 
@@ -20,7 +20,7 @@ but i want to specify a port or sometimes hostname too.
 
 that's why i created this lib. thank you.
 
-# How To Use
+## How To Use
 
 ```
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -35,5 +35,9 @@ that's why i created this lib. thank you.
 	ts.Start()
 	defer ts.Close()
 ```
+
+## Notice
+- toprope can't create TLS server now
+
 
 thankyou.
