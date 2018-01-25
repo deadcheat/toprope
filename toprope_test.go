@@ -143,9 +143,4 @@ func TestInternals(t *testing.T) {
 		t.Fail()
 	}
 	ts.Close()
-	c := ts.Client()
-	if c == nil {
-		t.Error("Client() must return not nil value")
-		t.Fail()
-	}
 }

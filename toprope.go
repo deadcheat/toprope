@@ -39,11 +39,6 @@ func (s *Server) Config() *http.Server {
 	return s.i.Config
 }
 
-// Client Override and call internal
-func (s *Server) Client() *http.Client {
-	return s.i.Client()
-}
-
 // Close Override and call internal
 func (s *Server) Close() {
 	s.i.Close()
