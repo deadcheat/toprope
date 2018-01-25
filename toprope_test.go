@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"testing"
+	"time"
 
 	"github.com/deadcheat/toprope"
 )
@@ -103,4 +104,25 @@ func TestNewHttptestTCPServerFromURL_ListenError(t *testing.T) {
 		t.Error("returned error must be typed *net.OpError")
 		t.Fail()
 	}
+}
+
+// Test NewHttptestTCPServerFromURL will return error when duplicate start using toprope
+func TestNewHttptestTCPServerFromURL_ShouldSuccessDuplicatedRunning(t *testing.T) {
+	testUrl := "http://127.0.0.1:9999"
+	// error must be nil
+	ts, err := toprope.NewHttptestTCPServerFromURL(testUrl, nil)
+	go func() {
+		time.Sleep(4 * time.Second)
+		ts.CloseClientConnections()
+		ts.Close()
+	}()
+	delayedTs, err := toprope.NewHttptestTCPServerFromURL(testUrl, nil)
+	if err != nil {
+		t.Error("Occurred unexpected error : ", err)
+		t.Fail()
+	}
+	defer func() {
+		delayedTs.CloseClientConnections()
+		delayedTs.Close()
+	}()
 }
