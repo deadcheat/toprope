@@ -7,6 +7,8 @@ ___________
                    |__|                    |__|         \/
 ```
 
+[![Build Status](https://travis-ci.org/deadcheat/toprope.svg?branch=master)](https://travis-ci.org/deadcheat/toprope)
+
 # What's this
 
 toprope is aiming to flexible wrapper of net/http/test
