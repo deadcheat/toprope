@@ -7,7 +7,7 @@ ___________
                    |__|                    |__|         \/
 ```
 
-[![Build Status](https://travis-ci.org/deadcheat/toprope.svg?branch=master)](https://travis-ci.org/deadcheat/toprope)
+[![Build Status](https://travis-ci.org/deadcheat/toprope.svg?branch=master)](https://travis-ci.org/deadcheat/toprope) [![Coverage Status](https://coveralls.io/repos/github/deadcheat/toprope/badge.svg?branch=master)](https://coveralls.io/github/deadcheat/toprope?branch=master)
 
 # What's this
 

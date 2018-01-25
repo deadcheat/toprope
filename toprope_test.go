@@ -13,7 +13,10 @@ func TestNewHttptestTCPServerFromURL_Success(t *testing.T) {
 	testUrl := "http://127.0.0.1:9999"
 	// error must be nil
 	ts, err := toprope.NewHttptestTCPServerFromURL(testUrl, nil)
-	defer ts.Close()
+	defer func() {
+		ts.CloseClientConnections()
+		ts.Close()
+	}()
 	if err != nil {
 		t.Error("Occurred unexpected error : ", err)
 		t.Fail()
@@ -51,6 +54,10 @@ func TestNewHttptestTCPServer_Success(t *testing.T) {
 		t.Error("Occurred unexpected error : ", err)
 		t.Fail()
 	}
+	defer func() {
+		ts.CloseClientConnections()
+		ts.Close()
+	}()
 	expectedURL := fmt.Sprintf("%s:%d", testHost, testPort)
 	// ts must return correct URL
 	if ts.URL != expectedURL {
